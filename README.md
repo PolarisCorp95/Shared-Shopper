@@ -1,3 +1,3 @@
 # Shared-Shopper
 Shared Shopping list
-Developers: Vibhavi Peiris
+Developers: Sathira Padukka and Vibhavi Peiris
