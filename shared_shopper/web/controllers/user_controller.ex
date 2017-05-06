@@ -11,9 +11,9 @@ defmodule SharedShopper.UserController do
    changeset = User.changeset(%User{})
    render(conn, "new.html", changeset: changeset)
  end
-
+ 
  def create(conn, %{"user" => user_params}) do
-   changeset = User.registration_changeset()
+   changeset = User.registration_changeset(%User{}, user_params)
    case Repo.insert(changeset) do
      {:ok, user} ->
        conn
@@ -33,16 +33,16 @@ defmodule SharedShopper.UserController do
 
  def update(conn, %{"id" => id, "user" => user_params}) do
    user = Repo.get(User, id)
-   changeset = User.registration_changeset()
+   changeset = User.registration_changeset(user, user_params)
 
- case Repo.update(changeset) do
-     {:ok, user} ->
-       conn
-       |> put_flash(:info, "User updated")
-       |> redirect(to: user_path(conn, :index))
-     {:error, changeset} ->
-       conn
-       |> render("show.html", user: user, changeset: changeset)
-   end
+   case Repo.update(changeset) do
+       {:ok, user} ->
+         conn
+         |> put_flash(:info, "User updated")
+         |> redirect(to: user_path(conn, :index))
+       {:error, changeset} ->
+         conn
+         |> render("show.html", user: user, changeset: changeset)
+     end
  end
 end
