@@ -11,7 +11,7 @@
     <tr>
       <td><%= user.email %> (<%= link "View", to: user_path(@conn, :show, user) %>)  </td>
       <td><%= user.username %> </td>
-      <td><%= user.password_hash %> </td>
+      <td><%= user.password %> </td>
       <td><%= user.name %> </td>
 
     </tr>

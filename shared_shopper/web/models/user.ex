@@ -16,20 +16,22 @@ defmodule SharedShopper.User do
  """
    def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:email, :password_hash, :name, :username])
-    |> validate_required([:email, :password_hash, :name, :username])
+    |> cast(params, [:email, :password, :name, :username])
+    |> validate_required([:email, :password, :name, :username])
     |> validate_format(:email, ~r/@/)
   end
 
   defp put_password_hash(changeset) do
-  case changeset do
-    %Ecto.Changeset{valid?: true, changes: %{password_hash: pass}} ->
-      put_change(changeset, :password_hash,
-                 Comeonin.Bcrypt.hashpwsalt(pass))
-    _ ->
-      changeset
+    case changeset do
+      %Ecto.Changeset{valid?: true, changes: %{password: pass}} ->
+        put_change(changeset, :password_hash,
+                   Comeonin.Bcrypt.hashpwsalt(pass))
+
+      _ ->
+        changeset
+    end
   end
-end
+
   def registration_changeset(model, params) do
     model
     |> changeset(params)
@@ -37,4 +39,5 @@ end
     |> validate_length(:password, min: 6)
     |> put_password_hash()
   end
+
 end
