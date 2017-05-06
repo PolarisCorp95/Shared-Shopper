@@ -13,7 +13,7 @@ defmodule SharedShopper.Router do
 
   pipeline :browser_auth do
     plug Guardian.Plug.VerifySession
-    plug Guardian.Plug.EnsureAuthenticated, handler: Todo.Token
+    plug Guardian.Plug.EnsureAuthenticated, handler: SharedShopper.Token
     plug Guardian.Plug.LoadResource
   end
 
