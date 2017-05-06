@@ -3,6 +3,7 @@ defmodule SharedShopper.User do
 
  schema "users" do
    field :email, :string
+   field :password, :string, virtual: true
    field :password_hash, :string
    field :name, :string
    field :username, :string
@@ -32,8 +33,8 @@ end
   def registration_changeset(model, params) do
     model
     |> changeset(params)
-    |> cast(params, ~w(password_hash), [])
-    |> validate_length(:password_hash, min: 6)
+    |> cast(params, ~w(password), [])
+    |> validate_length(:password, min: 6)
     |> put_password_hash()
   end
 end
