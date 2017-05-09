@@ -39,7 +39,22 @@ defmodule SharedShopper.UserController do
          |> redirect(to: page_path(conn, :index))
      end
  end
-
+ def delete(conn, %{"id" => id}) do
+   user = Repo.get(User, id)
+   cond do
+     user == Guardian.Plug.current_resource(conn) ->
+       case Repo.delete(user) do
+         {:ok, user} ->
+           conn
+           |> Guardian.Plug.sign_out
+           |> put_flash(:info, "Account deleted")
+           |> redirect(to: page_path(conn, :index))
+         {:error, _} ->
+           conn
+           |> render("show.html", user: user)
+     end
+   end
+ end
  def update(conn, %{"id" => id, "user" => user_params}) do
    user = Repo.get(User, id)
    changeset = User.registration_changeset(user, user_params)
