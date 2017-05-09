@@ -27,4 +27,7 @@
  <%= error_tag f, :name %>
  </div>
  <%= submit "Update user", class: "btn btn-primary" %>
+
+ <%= link "Delete Account", to: user_path(@conn, :delete, @user),
+         method: :delete, class: "btn btn-danger" %>
 <% end %>
