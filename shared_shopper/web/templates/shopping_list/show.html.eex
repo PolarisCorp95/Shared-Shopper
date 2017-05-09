@@ -1,0 +1,33 @@
+<h2>Show shopping list</h2>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @shopping_list.title %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @shopping_list.description %>
+  </li>
+
+  <li>
+    <strong>Completed:</strong>
+    <%= @shopping_list.completed %>
+  </li>
+
+  <li>
+    <strong>User:</strong>
+    <%= @shopping_list.user_id %>
+  </li>
+
+  <li>
+    <strong>List items:</strong>
+    <%= @shopping_list.list_items %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: shopping_list_path(@conn, :edit, @shopping_list) %>
+<%= link "Back", to: shopping_list_path(@conn, :index) %>
