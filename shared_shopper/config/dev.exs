@@ -36,8 +36,8 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :shared_shopper, SharedShopper.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "shared_shopper_dev",
+  username: "SharedUser",
+  password: "1995",
+  database: "shared_shopper_database",
   hostname: "localhost",
   pool_size: 10

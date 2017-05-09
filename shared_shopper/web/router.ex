@@ -7,6 +7,14 @@ defmodule SharedShopper.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.LoadResource
+  end
+
+  pipeline :browser_auth do
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.EnsureAuthenticated, handler: SharedShopper.Token
+    plug Guardian.Plug.LoadResource
   end
 
   pipeline :api do
@@ -17,7 +25,30 @@ defmodule SharedShopper.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    resources "/users", UserController
+    resources "/shoppinglists", ShoppingListController
   end
+
+
+
+
+
+
+  scope "/", SharedShopper do
+    pipe_through :browser # Use the default browser stack
+
+    get "/", PageController, :index
+    resources "/users", UserController, only: [:new, :create, :delete]
+    resources "/sessions", SessionController, only: [:new, :create, :delete]
+  end
+
+  scope "/", SharedShopper do
+    pipe_through [:browser, :browser_auth]
+    resources "/users", UserController, only: [:show, :index, :update]
+  end
+
+
+
 
   # Other scopes may use custom stacks.
   # scope "/api", SharedShopper do

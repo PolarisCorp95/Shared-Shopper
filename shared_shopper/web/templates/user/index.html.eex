@@ -1,0 +1,19 @@
+<h1>Users</h1>
+<table class="table">
+  <tr>
+    <td>Email</td>
+    <td>Username</td>
+    <td>Password </td>
+    <td>Name </td>
+  </tr>
+  <%= for user <- @users do %>
+
+    <tr>
+      <td><%= user.email %> (<%= link "View", to: user_path(@conn, :show, user) %>)  </td>
+      <td><%= user.username %> </td>
+      <td><%= user.password %> </td>
+      <td><%= user.name %> </td>
+
+    </tr>
+  <% end %>
+</table>
