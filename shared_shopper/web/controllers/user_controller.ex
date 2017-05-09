@@ -19,7 +19,7 @@ defmodule SharedShopper.UserController do
        conn
        |> SharedShopper.Auth.login(user) # new line added
        |> put_flash(:info, "User created!")
-       |> redirect(to: user_path(conn, :index))
+       |> redirect(to: shopping_list_path(conn, :index))
      {:error, changeset} ->
        conn
        |> render("new.html", changeset: changeset)
