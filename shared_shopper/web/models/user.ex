@@ -7,6 +7,7 @@ defmodule SharedShopper.User do
    field :password_hash, :string
    field :name, :string
    field :username, :string
+   has_many :slists, SharedShopper.ShoppingList
 
    timestamps()
  end

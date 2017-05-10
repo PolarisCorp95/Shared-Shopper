@@ -9,6 +9,30 @@ defmodule SharedShopper.ShoppingListController do
   end
 
   def new(conn, _params) do
+    changeset = Guardian.Plug.current_resource(conn)
+    |> build_assoc(:slists)
+    |> ShoppingList.changeset()
+
+    render(conn, "new.html", changeset: changeset)
+  end
+
+  def create(conn, %{"shopping_list" => shopping_list_params}) do
+    changeset = Guardian.Plug.current_resource(conn)
+    |> build_assoc(:slists)
+    |> ShoppingList.changeset(shopping_list_params)
+
+    case Repo.insert(changeset) do
+      {:ok, _shopping_list_params} ->
+        conn
+        |> put_flash(:info, "Shopping List created successfully.")
+        |> redirect(to: shopping_list_path(conn, :index))
+      {:error, changeset} ->
+        render(conn, "new.html", changeset: changeset)
+    end
+  end
+
+@doc """
+  def new(conn, _params) do
     changeset = ShoppingList.changeset(%ShoppingList{})
     render(conn, "new.html", changeset: changeset)
   end
@@ -25,7 +49,7 @@ defmodule SharedShopper.ShoppingListController do
         render(conn, "new.html", changeset: changeset)
     end
   end
-
+"""
   def show(conn, %{"id" => id}) do
     shopping_list = Repo.get!(ShoppingList, id)
     render(conn, "show.html", shopping_list: shopping_list)
