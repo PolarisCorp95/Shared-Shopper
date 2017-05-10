@@ -17,6 +17,6 @@ defmodule SharedShopper.ShoppingList do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:title, :description, :completed, :list_items])
-    |> validate_required([:title, :description, :completed, :list_items])
+    |> validate_required([:title, :description, :completed])
   end
 end
