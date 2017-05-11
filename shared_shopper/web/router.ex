@@ -29,11 +29,6 @@ defmodule SharedShopper.Router do
     resources "/shoppinglists", ShoppingListController
   end
 
-
-
-
-
-
   scope "/", SharedShopper do
     pipe_through :browser # Use the default browser stack
 
@@ -47,10 +42,7 @@ defmodule SharedShopper.Router do
     resources "/users", UserController, only: [:show, :index, :update]
   end
 
-
-
-
-  # Other scopes may use custom stacks.
+# Other scopes may use custom stacks.
   # scope "/api", SharedShopper do
   #   pipe_through :api
   # end
