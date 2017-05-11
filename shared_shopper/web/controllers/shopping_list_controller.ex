@@ -4,10 +4,41 @@ defmodule SharedShopper.ShoppingListController do
   alias SharedShopper.ShoppingList
 
   def index(conn, _params) do
-    shoppinglists = Repo.all(ShoppingList)
+    user = Guardian.Plug.current_resource(conn)
+    shoppinglists = Repo.all(my_slists(user))
     render(conn, "index.html", shoppinglists: shoppinglists)
   end
 
+  def show(conn, %{"id" => id}) do
+    user = Guardian.Plug.current_resource(conn)
+    shopping_list = Repo.get!(my_slists(user), id)
+    render(conn, "show.html", shopping_list: shopping_list)
+  end
+
+  def new(conn, _params) do
+    changeset = Guardian.Plug.current_resource(conn)
+    |> build_assoc(:slists)
+    |> ShoppingList.changeset()
+
+    render(conn, "new.html", changeset: changeset)
+  end
+
+  def create(conn, %{"shopping_list" => shopping_list_params}) do
+    changeset = Guardian.Plug.current_resource(conn)
+    |> build_assoc(:slists)
+    |> ShoppingList.changeset(shopping_list_params)
+
+    case Repo.insert(changeset) do
+      {:ok, _shopping_list_params} ->
+        conn
+        |> put_flash(:info, "Shopping List created successfully.")
+        |> redirect(to: shopping_list_path(conn, :index))
+      {:error, changeset} ->
+        render(conn, "new.html", changeset: changeset)
+    end
+  end
+
+@doc """
   def new(conn, _params) do
     changeset = ShoppingList.changeset(%ShoppingList{})
     render(conn, "new.html", changeset: changeset)
@@ -25,11 +56,7 @@ defmodule SharedShopper.ShoppingListController do
         render(conn, "new.html", changeset: changeset)
     end
   end
-
-  def show(conn, %{"id" => id}) do
-    shopping_list = Repo.get!(ShoppingList, id)
-    render(conn, "show.html", shopping_list: shopping_list)
-  end
+"""
 
   def edit(conn, %{"id" => id}) do
     shopping_list = Repo.get!(ShoppingList, id)
@@ -49,6 +76,10 @@ defmodule SharedShopper.ShoppingListController do
       {:error, changeset} ->
         render(conn, "edit.html", shopping_list: shopping_list, changeset: changeset)
     end
+  end
+
+  defp my_slists(user) do
+    assoc(user, :slists)
   end
 
   def delete(conn, %{"id" => id}) do
