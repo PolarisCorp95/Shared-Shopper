@@ -1,0 +1,6 @@
+<h2>New list item</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: list_item_path(@conn, :create) %>
+
+<%= link "Back", to: list_item_path(@conn, :index) %>
