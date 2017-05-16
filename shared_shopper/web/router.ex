@@ -27,6 +27,7 @@ defmodule SharedShopper.Router do
     get "/", PageController, :index
     resources "/users", UserController
     resources "/shoppinglists", ShoppingListController
+    resources "/listitems", ListItemController
   end
 
   scope "/", SharedShopper do

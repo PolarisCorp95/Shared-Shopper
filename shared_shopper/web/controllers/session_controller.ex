@@ -12,7 +12,7 @@ defmodule SharedShopper.SessionController do
       {:ok, conn} ->
         logged_in_user = Guardian.Plug.current_resource(conn)
         conn
-        |> put_flash(:info, "Innlogget")
+        |> put_flash(:info, "Logged In")
         |> redirect(to: shopping_list_path(conn, :index))
       {:error, _reason, conn} ->
         conn
