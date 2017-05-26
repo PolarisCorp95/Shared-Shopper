@@ -1,0 +1,28 @@
+<h2>Show list item</h2>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @list_item.title %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @list_item.description %>
+  </li>
+
+  <li>
+    <strong>Completed:</strong>
+    <%= @list_item.completed %>
+  </li>
+
+  <li>
+    <strong>Shoppinglist:</strong>
+    <%= @list_item.shoppinglist_id %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: list_item_path(@conn, :edit, @list_item) %>
+<%= link "Back", to: list_item_path(@conn, :index) %>

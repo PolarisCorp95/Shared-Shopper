@@ -2,6 +2,7 @@ defmodule SharedShopper.ShoppingListController do
   use SharedShopper.Web, :controller
 
   alias SharedShopper.ShoppingList
+  alias SharedShopper.ListItem
 
   def index(conn, _params) do
     user = Guardian.Plug.current_resource(conn)
@@ -10,10 +11,11 @@ defmodule SharedShopper.ShoppingListController do
   end
 
   def show(conn, %{"id" => id}) do
-    user = Guardian.Plug.current_resource(conn)
-    shopping_list = Repo.get!(my_slists(user), id)
-    render(conn, "show.html", shopping_list: shopping_list)
-  end
+   user = Guardian.Plug.current_resource(conn)
+   shopping_list = Repo.get!(my_slists(user), id)
+   list_item = Repo.get!(ListItem, 1)
+   render(conn, "show.html", shopping_list: shopping_list, list_item: list_item)
+ end
 
   def new(conn, _params) do
     changeset = Guardian.Plug.current_resource(conn)
