@@ -1,0 +1,30 @@
+<h2>Listing shoppinglist</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Completed</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for shopping_list <- @shoppinglist do %>
+    <tr>
+      <td><%= shopping_list.title %></td>
+      <td><%= shopping_list.description %></td>
+      <td><%= shopping_list.completed %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: shopping_list_path(@conn, :show, shopping_list), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: shopping_list_path(@conn, :edit, shopping_list), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: shopping_list_path(@conn, :delete, shopping_list), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New shopping list", to: shopping_list_path(@conn, :new) %>
