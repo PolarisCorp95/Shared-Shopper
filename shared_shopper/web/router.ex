@@ -18,6 +18,8 @@ defmodule SharedShopper.Router do
 
     get "/", PageController, :index
     resources "/shoppinglist", ShoppingListController
+    resources "/users", UserController
+    resources "/sessions", SessionController, only: [:new, :create]
   end
 
   # Other scopes may use custom stacks.
