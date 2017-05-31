@@ -1,6 +1,6 @@
 defmodule SharedShopper.ShoppingListController do
   use SharedShopper.Web, :controller
-
+  plug :assign_user
   alias SharedShopper.ShoppingList
 
   def index(conn, _params) do
@@ -20,7 +20,7 @@ defmodule SharedShopper.ShoppingListController do
       {:ok, _shopping_list} ->
         conn
         |> put_flash(:info, "Shopping list created successfully.")
-        |> redirect(to: shopping_list_path(conn, :index))
+        |> redirect(to: user_shopping_list_path(conn, :index, conn.assigns[:user]))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -45,7 +45,7 @@ defmodule SharedShopper.ShoppingListController do
       {:ok, shopping_list} ->
         conn
         |> put_flash(:info, "Shopping list updated successfully.")
-        |> redirect(to: shopping_list_path(conn, :show, shopping_list))
+        |> redirect(to: user_shopping_list_path(conn, :show, conn.assigns[:user], shopping_list))
       {:error, changeset} ->
         render(conn, "edit.html", shopping_list: shopping_list, changeset: changeset)
     end
@@ -60,6 +60,17 @@ defmodule SharedShopper.ShoppingListController do
 
     conn
     |> put_flash(:info, "Shopping list deleted successfully.")
-    |> redirect(to: shopping_list_path(conn, :index))
+    |> redirect(to: user_shopping_list_path(conn, :index,  conn.assigns[:user]))
   end
+
+  defp assign_user(conn, _opts) do
+    case conn.params do
+      %{"user_id" => user_id} ->
+        user = Repo.get(SharedShopper.User, user_id)
+        assign(conn, :user, user)
+      _ ->
+        conn
+    end
+  end
+
 end
