@@ -16,7 +16,6 @@ defmodule SharedShopper.User do
       field :password_confirmation, :string, virtual: true
     end
 
-
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
