@@ -1,6 +1,4 @@
-<h2>Edit shopping list</h2>
-
+<h2>Edit post</h2>
 <%= render "form.html", changeset: @changeset,
-                        action: shopping_list_path(@conn, :update, @shopping_list) %>
-
-<%= link "Back", to: shopping_list_path(@conn, :index) %>
+                       action: user_shopping_list_path(@conn, :update, @user, @post) %>
+<%= link "Back", to: user_shopping_list_path(@conn, :index, @user) %>

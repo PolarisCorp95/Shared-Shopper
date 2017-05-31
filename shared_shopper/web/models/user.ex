@@ -8,6 +8,7 @@ defmodule SharedShopper.User do
     field :password_digest, :string
     field :name, :string
     field :username, :string
+    has_many :posts, SharedShopper.Post
 
     timestamps()
 

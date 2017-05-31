@@ -1,6 +1,6 @@
 <h2>New shopping list</h2>
 
 <%= render "form.html", changeset: @changeset,
-                        action: shopping_list_path(@conn, :create) %>
+                        action: user_shopping_list_path(@conn, :create, @user) %>
 
-<%= link "Back", to: shopping_list_path(@conn, :index) %>
+<%= link "Back", to: user_shopping_list_path(@conn, :index, @user) %>
