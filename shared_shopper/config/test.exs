@@ -11,9 +11,12 @@ config :logger, level: :warn
 
 # Configure your database
 config :shared_shopper, SharedShopper.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "shared_shopper_test",
-  hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
+adapter: Ecto.Adapters.Postgres,
+username: "SharedUser",
+password: "1995",
+database: "DatabaseSharedShopper",
+hostname: "localhost",
+
+pool: Ecto.Adapters.SQL.Sandbox
+
+config :comeonin, bcrypt_log_rounds: 4
