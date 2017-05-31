@@ -17,8 +17,9 @@ defmodule SharedShopper.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    resources "/shoppinglist", ShoppingListController
-    resources "/users", UserController
+    resources "/users", UserController do
+      resources "/shoppinglist", ShoppingListController
+    end
     resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 

@@ -5,6 +5,7 @@ defmodule SharedShopper.ShoppingList do
     field :title, :string
     field :description, :string
     field :completed, :boolean, default: false
+    belongs_to :user, SharedShopper.User
 
     timestamps()
   end
