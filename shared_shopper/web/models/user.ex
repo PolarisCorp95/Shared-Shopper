@@ -9,6 +9,7 @@ defmodule SharedShopper.User do
     field :name, :string
     field :username, :string
     has_many :shoppinglist, SharedShopper.ShoppingList
+    belongs_to :role, SharedShopper.Role
 
     timestamps()
 
@@ -22,10 +23,11 @@ defmodule SharedShopper.User do
   """
   def changeset(struct, params \\ %{}) do
       struct
-      |> cast(params, [:username, :email, :password, :password_confirmation])
-      |> validate_required([:username, :email, :password, :password_confirmation])
+      |> cast(params, [:username, :email, :password, :password_confirmation, :role_id])
+      |> validate_required([:username, :email, :password, :password_confirmation, :role_id])
       |> hash_password
     end
+
     defp hash_password(changeset) do
       if password = get_change(changeset, :password) do
         changeset
