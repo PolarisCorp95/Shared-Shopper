@@ -1,12 +1,13 @@
-defmodule SharedShopper.ShoppingList do
+defmodule SharedShopper.Todo do
   use SharedShopper.Web, :model
 
-  schema "shoppinglist" do
+  schema "todos" do
     field :title, :string
     field :description, :string
     field :completed, :boolean, default: false
-    belongs_to :user, SharedShopper.User
-    has_many :todos, SharedShopper.Todo
+    field :completedby, :string
+    belongs_to :shoppinglist, SharedShopper.Shoppinglist
+
     timestamps()
   end
 
@@ -15,7 +16,7 @@ defmodule SharedShopper.ShoppingList do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:title, :description, :completed])
-    |> validate_required([:title, :description, :completed])
+    |> cast(params, [:title, :description, :completed, :completedby])
+    |> validate_required([:title, :description, :completed, :completedby])
   end
 end

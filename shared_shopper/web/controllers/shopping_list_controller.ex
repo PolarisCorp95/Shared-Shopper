@@ -34,8 +34,12 @@ defmodule SharedShopper.ShoppingListController do
   end
 
   def show(conn, %{"id" => id}) do
-    shopping_list = Repo.get!(assoc(conn.assigns[:user], :shoppinglist), id)
-    render(conn, "show.html", shopping_list: shopping_list)
+    shoppinglist = Repo.get!(assoc(conn.assigns[:user], :shoppinglist), id)
+      |> Repo.preload(:todos)
+    todo_changeset = shoppinglist
+      |> build_assoc(:todos)
+      |> SharedShopper.Todo.changeset()
+    render(conn, "show.html", shoppinglist: shoppinglist, todo_changeset: todo_changeset)
   end
 
   def edit(conn, %{"id" => id}) do
