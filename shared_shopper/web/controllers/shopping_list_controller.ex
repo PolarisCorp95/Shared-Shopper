@@ -1,8 +1,10 @@
-defmodule SharedShopper.ShoppingListController do
+defmodule SharedShopper.ShoppinglistController do
   use SharedShopper.Web, :controller
+
   plug :assign_user
   plug :authorize_user when action in [:new, :create, :update, :edit, :delete]
-  alias SharedShopper.ShoppingList
+
+  alias SharedShopper.Shoppinglist
 
   def index(conn, _params) do
     shoppinglist = Repo.all(assoc(conn.assigns[:user], :shoppinglist))
@@ -13,21 +15,21 @@ defmodule SharedShopper.ShoppingListController do
     changeset =
       conn.assigns[:user]
       |> build_assoc(:shoppinglist)
-      |> ShoppingList.changeset()
+      |> Shoppinglist.changeset()
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"shopping_list" => shopping_list_params}) do
+  def create(conn, %{"shoppinglist" => shoppinglist_params}) do
     changeset =
      conn.assigns[:user]
      |> build_assoc(:shoppinglist)
-     |> ShoppingList.changeset(shopping_list_params)
+     |> Shoppinglist.changeset(shoppinglist_params)
 
    case Repo.insert(changeset) do
-     {:ok, _shopping_list} ->
+     {:ok, _shoppinglist} ->
        conn
        |> put_flash(:info, "Shopping List created successfully.")
-       |> redirect(to: user_shopping_list_path(conn, :index, conn.assigns[:user]))
+       |> redirect(to: user_shoppinglist_path(conn, :index, conn.assigns[:user]))
      {:error, changeset} ->
        render(conn, "new.html", changeset: changeset)
    end
@@ -43,35 +45,35 @@ defmodule SharedShopper.ShoppingListController do
   end
 
   def edit(conn, %{"id" => id}) do
-    shopping_list = Repo.get!(assoc(conn.assigns[:user], :shoppinglist), id)
-    changeset = ShoppingList.changeset(shopping_list)
-    render(conn, "edit.html", shopping_list: shopping_list, changeset: changeset)
+    shoppinglist = Repo.get!(assoc(conn.assigns[:user], :shoppinglist), id)
+    changeset = Shoppinglist.changeset(shoppinglist)
+    render(conn, "edit.html", shoppinglist: shoppinglist, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "shopping_list" => shopping_list_params}) do
-    shopping_list = Repo.get!(assoc(conn.assigns[:user], :shoppinglist), id)
-    changeset = ShoppingList.changeset(shopping_list, shopping_list_params)
+  def update(conn, %{"id" => id, "shoppinglist" => shoppinglist_params}) do
+    shoppinglist = Repo.get!(assoc(conn.assigns[:user], :shoppinglist), id)
+    changeset = Shoppinglist.changeset(shoppinglist, shoppinglist_params)
 
     case Repo.update(changeset) do
-      {:ok, shopping_list} ->
+      {:ok, shoppinglist} ->
         conn
         |> put_flash(:info, "Shopping List updated successfully.")
-        |> redirect(to: user_shopping_list_path(conn, :show, conn.assigns[:user], shopping_list))
+        |> redirect(to: user_shoppinglist_path(conn, :show, conn.assigns[:user], shoppinglist))
       {:error, changeset} ->
-        render(conn, "edit.html", shopping_list: shopping_list, changeset: changeset)
+        render(conn, "edit.html", shoppinglist: shoppinglist, changeset: changeset)
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    shopping_list = Repo.get!(assoc(conn.assigns[:user], :shoppinglist), id)
+    shoppinglist = Repo.get!(assoc(conn.assigns[:user], :shoppinglist), id)
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
-    Repo.delete!(shopping_list)
+    Repo.delete!(shoppinglist)
 
     conn
     |> put_flash(:info, "Shopping list deleted successfully.")
-    |> redirect(to: user_shopping_list_path(conn, :index,  conn.assigns[:user]))
+    |> redirect(to: user_shoppinglist_path(conn, :index,  conn.assigns[:user]))
   end
 
   defp assign_user(conn, _opts) do
