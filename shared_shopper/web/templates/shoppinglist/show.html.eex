@@ -1,7 +1,6 @@
 <h2>Show shopping list</h2>
 
 <ul>
-
   <li>
     <strong>Title:</strong>
     <%= @shoppinglist.title %>
@@ -16,13 +15,20 @@
     <strong>Completed:</strong>
     <%= @shoppinglist.completed %>
   </li>
-  <div class="todos">
-   <h2>Todos</h2>
-   <%= for todo <- @shoppinglist.todos do %>
-     <%= render SharedShopper.TodoView, "todo.html", todo: todo %>
-   <% end %>
-  </div>
 </ul>
+
+<br>
+  <div class="todos">
+
+  <h3>Your Todo list</h3>
+     <%= for todo <- @shoppinglist.todos do %>
+     <br>
+       <%= render SharedShopper.TodoView, "todo.html", todo: todo %>
+     <% end %>
+    </div>
+<br>
+
 <%= render SharedShopper.TodoView, "form.html", changeset: @todo_changeset, action: shoppinglist_todo_path(@conn, :create, @shoppinglist) %>
+
 <%= link "Edit", to: user_shoppinglist_path(@conn, :edit, @user, @shoppinglist) %>
 <%= link "Back", to: user_shoppinglist_path(@conn, :index, @user) %>

@@ -47,7 +47,7 @@ defmodule SharedShopper.ShoppinglistController do
     changeset = Shoppinglist.changeset(shoppinglist)
     render(conn, "edit.html", shoppinglist: shoppinglist, changeset: changeset)
   end
-
+  
   def update(conn, %{"id" => id, "shoppinglist" => shoppinglist_params}) do
     shoppinglist = Repo.get!(assoc(conn.assigns[:user], :shoppinglist), id)
     changeset = Shoppinglist.changeset(shoppinglist, shoppinglist_params)
