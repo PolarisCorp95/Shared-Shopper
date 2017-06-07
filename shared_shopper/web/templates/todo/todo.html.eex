@@ -1,21 +1,21 @@
-<div class="comment">
+<div class="todo">
   <div class="row">
     <div class="col-xs-4">
-      <strong><%= @comment.todo.title %></strong>
+      <strong><%= @todo.title %></strong>
     </div>
     <div class="col-xs-4">
-      <em><%= @comment.inserted_at %></em>
+      <em><%= @todo.inserted_at %></em>
     </div>
     <div class="col-xs-4 text-right">
-      <%= unless @comment.approved do %>
-        <button class="btn btn-xs btn-primary approve">Approve</button>
+      <%= unless @todo.completed do %>
+        <button class="btn btn-xs btn-primary approve">Complete</button>
       <% end %>
       <button class="btn btn-xs btn-danger delete">Delete</button>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-12">
-      <%= @comment.todo.description %>
+      <%= @todo.description %>
     </div>
   </div>
 </div>

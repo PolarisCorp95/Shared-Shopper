@@ -1,4 +1,4 @@
-defmodule SharedShopper.Repo.Migrations.CreateShoppinglist do
+defmodule SharedShopper.Repo.Migrations.CreateShoppingList do
   use Ecto.Migration
 
 
