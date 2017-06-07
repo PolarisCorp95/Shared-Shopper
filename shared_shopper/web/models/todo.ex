@@ -6,6 +6,7 @@ defmodule SharedShopper.Todo do
     field :description, :string
     field :completed, :boolean, default: false
     field :completedby, :string
+
     belongs_to :shoppinglist, SharedShopper.Shoppinglist
 
     timestamps()
