@@ -1,4 +1,4 @@
-defmodule SharedShopper.ShoppingList do
+defmodule SharedShopper.Shoppinglist do
   use SharedShopper.Web, :model
 
   schema "shoppinglist" do
