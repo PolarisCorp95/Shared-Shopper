@@ -18,9 +18,9 @@ defmodule SharedShopper.Router do
 
     get "/", PageController, :index
     resources "/users", UserController do
-      resources "/shoppinglist", ShoppingListController
+      resources "/shoppinglist", ShoppinglistController
     end
-    resources "/shoppinglist", ShoppingListController, only: [] do
+    resources "/shoppinglist", ShoppinglistController, only: [] do
         resources "/todos", TodoController, only: [:create, :delete, :update]
     end
     resources "/sessions", SessionController, only: [:new, :create, :delete]
