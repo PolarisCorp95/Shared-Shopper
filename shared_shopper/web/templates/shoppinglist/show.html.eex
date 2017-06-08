@@ -23,7 +23,13 @@
   <h3>Your Todo list</h3>
      <%= for todo <- @shoppinglist.todos do %>
      <br>
-       <%= render SharedShopper.TodoView, "todo.html", todo: todo %>
+       <%= render SharedShopper.TodoView,
+          "todo.html",
+          todo: todo,
+          author_or_admin: @conn.assigns[:author_or_admin],
+          conn: @conn,
+          shoppinglist: @shoppinglist
+        %>
      <% end %>
     </div>
 <br>

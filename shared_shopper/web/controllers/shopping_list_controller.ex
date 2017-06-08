@@ -2,6 +2,8 @@ defmodule SharedShopper.ShoppinglistController do
   use SharedShopper.Web, :controller
   plug :assign_user
   plug :authorize_user when action in [:new, :create, :update, :edit, :delete]
+  plug :set_authorization_flag
+
   alias SharedShopper.Shoppinglist
 
   def index(conn, _params) do
@@ -47,7 +49,7 @@ defmodule SharedShopper.ShoppinglistController do
     changeset = Shoppinglist.changeset(shoppinglist)
     render(conn, "edit.html", shoppinglist: shoppinglist, changeset: changeset)
   end
-  
+
   def update(conn, %{"id" => id, "shoppinglist" => shoppinglist_params}) do
     shoppinglist = Repo.get!(assoc(conn.assigns[:user], :shoppinglist), id)
     changeset = Shoppinglist.changeset(shoppinglist, shoppinglist_params)
@@ -94,16 +96,23 @@ defmodule SharedShopper.ShoppinglistController do
 
 
     defp authorize_user(conn, _opts) do
-        user = get_session(conn, :current_user)
-          if user && (Integer.to_string(user.id) == conn.params["user_id"] || SharedShopper.RoleChecker.is_admin?(user)) do
-          conn
-        else
-          conn
-          |> put_flash(:error, "You are not authorized to modify that Shopping List!")
-          |> redirect(to: page_path(conn, :index))
-          |> halt()
-        end
+      if is_authorized_user?(conn) do
+        conn
+      else
+        conn
+        |> put_flash(:error, "You are not authorized to modify that post!")
+        |> redirect(to: page_path(conn, :index))
+        |> halt
       end
+    end
 
+    defp is_authorized_user?(conn) do
+      user = get_session(conn, :current_user)
+      (user && (Integer.to_string(user.id) == conn.params["user_id"] || SharedShopper.RoleChecker.is_admin?(user)))
+    end
+
+    defp set_authorization_flag(conn, _opts) do
+      assign(conn, :author_or_admin, is_authorized_user?(conn))
+    end
 
 end
