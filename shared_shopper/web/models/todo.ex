@@ -16,7 +16,7 @@ defmodule SharedShopper.Todo do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:title, :description])
+    |> cast(params, [:title, :description, :completed])
     |> validate_required([:title, :description])
   end
 end
