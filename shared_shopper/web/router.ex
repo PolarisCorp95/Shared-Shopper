@@ -7,6 +7,7 @@ defmodule SharedShopper.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug SharedShopper.CurrentUserPlug
   end
 
   pipeline :api do
