@@ -21,7 +21,6 @@ defmodule SharedShopper.TodoController do
     end
   end
 
-
   def update(conn, %{"id" => id, "shoppinglist_id" => shoppinglist_id, "todo" => todo_params}) do
     shoppinglist = Repo.get!(Shoppinglist, shoppinglist_id) |> Repo.preload(:user)
     todo = Repo.get!(Todo, id)
