@@ -1,0 +1,30 @@
+<div class="todo">
+  <div class="row">
+    <div class="col-xs-4">
+      <strong><%= @todo.title %></strong>
+    </div>
+    <div class="col-xs-4">
+      <em><%= @todo.inserted_at %></em>
+    </div>
+    <div class="col-xs-4 text-right">
+      <%= unless @todo.completed do %>
+        <%= form_for @conn, shoppinglist_todo_path(@conn, :update, @shoppinglist, @todo), [method: :put, as: :todo, style: "display: inline;"], fn f -> %>
+          <%= hidden_input f, :completed, value: "true" %>
+          <%= submit "Completed", class: "btn btn-xs btn-primary completed" %>
+        <% end %>
+      <% end %>
+
+      <%= link "Delete",
+            method: :delete,
+            to: shoppinglist_todo_path(@conn, :delete, @shoppinglist, @todo),
+            class: "btn btn-xs btn-danger delete",
+            data: [confirm: "Are you sure you want to delete this todo?"]
+      %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <%= @todo.description %>
+    </div>
+  </div>
+</div>

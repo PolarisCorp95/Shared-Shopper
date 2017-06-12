@@ -1,0 +1,40 @@
+<h2>Show shopping list</h2>
+
+<ul>
+  <li>
+    <strong>Title:</strong>
+    <%= @shoppinglist.title %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @shoppinglist.description %>
+  </li>
+
+  <li>
+    <strong>Completed:</strong>
+    <%= @shoppinglist.completed %>
+  </li>
+</ul>
+
+<br>
+  <div class="todos">
+
+  <h3>Your Todo list</h3>
+     <%= for todo <- @shoppinglist.todos do %>
+     <br>
+       <%= render SharedShopper.TodoView,
+          "todo.html",
+          todo: todo,
+          author_or_admin: @conn.assigns[:author_or_admin],
+          conn: @conn,
+          shoppinglist: @shoppinglist
+        %>
+     <% end %>
+    </div>
+<br>
+
+<%= render SharedShopper.TodoView, "form.html", changeset: @todo_changeset, action: shoppinglist_todo_path(@conn, :create, @shoppinglist) %>
+
+<%= link "Edit", to: user_shoppinglist_path(@conn, :edit, @user, @shoppinglist) %>
+<%= link "Back", to: user_shoppinglist_path(@conn, :index, @user) %>
