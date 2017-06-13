@@ -46,21 +46,16 @@
       </section>
 
       <section class="more-info expanded row">
-        This is an example design for the Phoenix Blog Engine project detailed in my series of
-        <a href="https://medium.com/@diamondgfx/introduction-fe138ac6079d">Medium</a> posts.
-        This design is merely a starting template; you may want to go out and find your own
-        as well to make it look truly original! You're welcome to use the source code for this
-        project as well as the design as you wish! If you're interested in more, please find me
-        on the internet via:
+        This is a Shared Shopping list helping multiple users to share shopping lists.
         <br />
         <div class="social-media text-center">
-          <a href="http://twitter.com/diamondgfx"><i class="fi-social-twitter"></i></a>
-          <a href="https://medium.com/@diamondgfx/"><i class="fi-social-medium"></i></a>
+          <a href=""><i class="fi-social-twitter"></i></a>
+          <a href=""><i class="fi-social-medium"></i></a>
         </div>
       </section>
 
       <footer class="expanded row">
-        I'm a standard footer for your site! Maybe you can throw a copyright &copy; down here or something like that, or licensing! You know, whatever!
+        Shared Shopper copyright &copy;
       </footer>
     </section>
 
