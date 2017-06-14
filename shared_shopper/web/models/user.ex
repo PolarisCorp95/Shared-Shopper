@@ -8,6 +8,7 @@ defmodule SharedShopper.User do
     field :password_digest, :string
     field :name, :string
     field :username, :string
+    field :people, {:array, :string}
     has_many :shoppinglist, SharedShopper.Shoppinglist
     belongs_to :role, SharedShopper.Role
 
@@ -23,7 +24,7 @@ defmodule SharedShopper.User do
   """
   def changeset(struct, params \\ %{}) do
       struct
-      |> cast(params, [:username, :email, :password, :password_confirmation, :role_id])
+      |> cast(params, [:username, :email, :password, :password_confirmation, :role_id, :people])
       |> validate_required([:username, :email, :password, :password_confirmation, :role_id])
       |> hash_password
     end
