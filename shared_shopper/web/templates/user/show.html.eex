@@ -21,7 +21,11 @@
     <strong>Username:</strong>
     <%= @user.username %>
   </li>
+  <li>
+   <strong>People:</strong>
+   <%= if @user.people == nil, do: '', else: Enum.join(@user.people, ", ") %>
 
+ </li>
 </ul>
 
 <%= link "Edit", to: user_path(@conn, :edit, @user) %>
