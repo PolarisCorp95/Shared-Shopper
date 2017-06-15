@@ -42,7 +42,8 @@
   </div>
   <div class="form-group">
     <%= label f, :people, "People", class: "control-label" %>
-    <%= text_input f, :people,  class: "form-control" %>
+    <%= array_input f, :people %>
+    <%= array_add_button f, :people %>
     <%= error_tag f, :people %>
   </div>
 

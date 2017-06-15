@@ -43,6 +43,7 @@ defmodule SharedShopper.UserController do
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
+    user_params = Map.put_new(user_params, "people", nil)
     roles = Repo.all(Role)
     user = Repo.get!(User, id)
     changeset = User.changeset(user, user_params)
