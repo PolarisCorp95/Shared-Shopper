@@ -17,6 +17,13 @@
   </li>
 </ul>
 
+<h3>People</h3>
+<%= peoples= Map.keys(@shoppinglist.people) %>
+<%= for person <- peoples do %>
+<br>
+<%=person%>: <%= @shoppinglist.people[person] %>
+<% end %>
+
 <br>
   <div class="todos">
 
@@ -33,6 +40,9 @@
      <% end %>
     </div>
 <br>
+
+
+
 
 <%= render SharedShopper.TodoView, "form.html", changeset: @todo_changeset, action: shoppinglist_todo_path(@conn, :create, @shoppinglist) %>
 
