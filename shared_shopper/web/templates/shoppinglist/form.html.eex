@@ -25,11 +25,42 @@
 
   <div class="form-group">
     <%= label f, :people, class: "control-label" %>
-       <%= textarea f, :people, rows: 10, class: "form-control" %>
+    <div class="PeopleTable">
+
+    </div>
+    <a onclick="addrows()">Click To Add Someone</a>
+
+       <!--       <%= textarea f, :test, class: "textarea-control", id: "textinput" %>
+
+       <%= testtext="123123123"%>
+       <%= hidden_input f, :people, value: testtext, class: "form-control", id: "hiddentext" %>-->
+       <%= hidden_input f, :people, value: testtext, class: "form-control", id: "hiddentext" %>
     <%= error_tag f, :people %>
   </div>
 
   <div class="form-group">
-    <%= submit "Submit", class: "btn btn-primary" %>
+    <%= submit "Submit", class: "btn btn-primary", onclick: "savepeople()"%>
   </div>
 <% end %>
+<script>
+function savepeople(){
+var allpeople = ""
+$(".PeopleRow").each(function() {
+    var currentname = $(this).find("input").val(), currentpermm = $(this).find("select").val();
+    var currentperson = currentname + ";" + currentpermm;
+    allpeople += currentperson + ",";
+  });
+
+  document.getElementById('hiddentext').value = allpeople;
+  return false;
+}
+
+function addrows(){
+  var temprow1 = "<div class='PeopleRow'>";
+  var temprow2 = temprow1.concat("<input type='text' name='username'></input>");
+  var temprow3 = temprow2.concat("<select name='permissions'> <option value='admin'>Admin</option> <option value='user'>User</option> </select>");
+  var temprow4 =  temprow3.concat( "</div>");
+
+  $(".PeopleTable").append(temprow4);
+}
+</script>
