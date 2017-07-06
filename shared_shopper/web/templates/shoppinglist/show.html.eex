@@ -17,11 +17,11 @@
   </li>
 </ul>
 
+
 <h3>People</h3>
-<%= peoples= Map.keys(@shoppinglist.people) %>
-<%= for person <- peoples do %>
-<br>
-<%=person%>: <%= @shoppinglist.people[person] %>
+<%= for {key, value} <- @shoppinglist.people do %>
+  <%=key%>: <%= value %>
+  <br>
 <% end %>
 
 <br>

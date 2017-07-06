@@ -22,12 +22,10 @@ defmodule SharedShopper.Shoppinglist do
   end
 
   defp filter(%{"people" => people} = params) when is_binary(people) do
-    IO.inspect people
-
-    tempmap = Map.put_new(Map.new(), people, "abc")
-    IO.inspect  tempmap
-
-    params = Map.put params, "people", tempmap
+    map = List.delete_at(String.split(people,","),-1)
+      |> Enum.map(&String.split(&1, ";"))
+      |> Map.new(fn [k, v] -> {k, v} end)
+    params = Map.put params, "people", map
   end
 
   defp filter(params), do: params
