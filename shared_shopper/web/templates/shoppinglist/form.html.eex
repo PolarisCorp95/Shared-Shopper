@@ -25,11 +25,21 @@
 
   <div class="form-group">
     <%= label f, :people, class: "control-label" %>
+
+    <%= for {key, val} <- @person do %>
+    <div class='PeopleRow'>
+      <%= text_input f, :people, value: key, class: "form-control", name: name="username" %>
+      <%= select f, :color, ["admin": "admin", "user": "user"], value: val, name: "permissions"%>
+    </div>
+    <% end %>
+
+
+
     <div class="PeopleTable">
+
 
     </div>
     <a onclick="addrows()">Click To Add Someone</a>
-
        <!--       <%= textarea f, :test, class: "textarea-control", id: "textinput" %>
 
        <%= testtext="123123123"%>
@@ -42,7 +52,11 @@
     <%= submit "Submit", class: "btn btn-primary", onclick: "savepeople()"%>
   </div>
 <% end %>
+
 <script>
+$('document').ready(function() {
+    console.log( "ready!" );
+});
 function savepeople(){
 var allpeople = ""
 $(".PeopleRow").each(function() {
