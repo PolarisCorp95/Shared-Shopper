@@ -28,7 +28,7 @@
 
     <%= for {key, val} <- @person do %>
     <div class='PeopleRow'>
-      <%= text_input f, :people, value: key, class: "form-control", name: name="username" %>
+      <%= text_input f, :people, value: key, class: "form-control", name: "username" %>
       <%= select f, :color, ["admin": "admin", "user": "user"], value: val, name: "permissions"%>
     </div>
     <% end %>
