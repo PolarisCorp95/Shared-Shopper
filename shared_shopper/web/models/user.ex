@@ -25,8 +25,12 @@ defmodule SharedShopper.User do
   def changeset(struct, params \\ %{}) do
       struct
       |> cast(params, [:username, :email, :password, :password_confirmation, :role_id, :people])
+          |> unique_constraint(:username)
+          |> unique_constraint(:email)
       |> validate_required([:username, :email, :password, :password_confirmation, :role_id])
       |> hash_password
+
+
     end
 
     defp hash_password(changeset) do
