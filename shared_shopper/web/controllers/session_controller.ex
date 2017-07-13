@@ -1,14 +1,15 @@
 defmodule SharedShopper.SessionController do
  use SharedShopper.Web, :controller
  alias SharedShopper.User
- import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
+ #import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
 
- plug :scrub_params, "user" when action in [:create]
+ #plug :scrub_params, "user" when action in [:create]
 
  def new(conn, _params) do
    render conn, "new.html", changeset: User.changeset(%User{})
  end
 
+@doc """
  def create(conn, %{"user" => %{"username" => username, "password" => password}})
    when not is_nil(username) and not is_nil(password) do
      user = Repo.get_by(User, username: username)
@@ -49,5 +50,24 @@ defmodule SharedShopper.SessionController do
       failed_login(conn)
     end
   end
-
+  """
+  def create(conn, %{"session" => %{"username" => user, "password" => pass}}) do
+    case SharedShopper.Auth.login_by_username_and_pass(conn, user, pass,
+                                           repo: Repo) do
+      {:ok, conn} ->
+        logged_in_user = Guardian.Plug.current_resource(conn)
+        conn
+        |> put_flash(:info, "Signed in")
+        |> redirect(to: user_path(conn, :show, logged_in_user))
+      {:error, _reason, conn} ->
+        conn
+        |> put_flash(:error, "Wrong username/password")
+        |> render("new.html")
+     end
+  end
+  def delete(conn, _) do
+    conn
+    |> Guardian.Plug.sign_out
+    |> redirect(to: "/")
+  end
 end

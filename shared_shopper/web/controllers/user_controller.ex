@@ -1,7 +1,6 @@
 defmodule SharedShopper.UserController do
   use SharedShopper.Web, :controller
-  plug :authorize_admin when action in [:new, :create]
-  plug :authorize_user when action in [:edit, :update, :delete]
+  #plug :authorize_user when action in [:edit, :update, :delete]
   alias SharedShopper.User
   alias SharedShopper.Role
 
@@ -21,8 +20,9 @@ defmodule SharedShopper.UserController do
     changeset = User.changeset(%User{}, user_params)
 
     case Repo.insert(changeset) do
-      {:ok, _user} ->
+      {:ok, user} ->
         conn
+        |> SharedShopper.Auth.login(user)
         |> put_flash(:info, "User created successfully.")
         |> redirect(to: user_path(conn, :index))
       {:error, changeset} ->
@@ -31,8 +31,17 @@ defmodule SharedShopper.UserController do
   end
 
   def show(conn, %{"id" => id}) do
-    user = Repo.get!(User, id)
-    render(conn, "show.html", user: user)
+    user = Repo.get(User, id)
+    changeset = User.changeset(user)
+    cond do
+      user == Guardian.Plug.current_resource(conn) || !SharedShopper.RoleChecker.is_admin?(user) ->
+        conn
+        |> render("show.html", user: user, changeset: changeset)
+      :error ->
+        conn
+        |> put_flash(:info, "No access")
+        |> redirect(to: page_path(conn, :index))
+    end
   end
 
   def edit(conn, %{"id" => id}) do
@@ -47,15 +56,31 @@ defmodule SharedShopper.UserController do
     roles = Repo.all(Role)
     user = Repo.get!(User, id)
     changeset = User.changeset(user, user_params)
-
-    case Repo.update(changeset) do
-      {:ok, user} ->
+    cond do
+      user == Guardian.Plug.current_resource(conn) || !SharedShopper.RoleChecker.is_admin?(user) ->
+      case Repo.update(changeset) do
+        {:ok, user} ->
+          conn
+          |> put_flash(:info, "User updated successfully.")
+          |> redirect(to: user_path(conn, :show, user))
+        {:error, changeset} ->
+          render(conn, "edit.html", user: user, changeset: changeset, roles: roles)
+      end
+      :error1 ->
         conn
-        |> put_flash(:info, "User updated successfully.")
-        |> redirect(to: user_path(conn, :show, user))
-      {:error, changeset} ->
-        render(conn, "edit.html", user: user, changeset: changeset, roles: roles)
+        |> put_flash(:info, "No access")
+        |> redirect(to: page_path(conn, :index))
     end
+
+
+
+
+
+
+
+
+
+
   end
 
   def delete(conn, %{"id" => id}) do

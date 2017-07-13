@@ -8,29 +8,26 @@
         <%= link "Home", to: page_path(@conn, :index) %>
       </li>
       <li>
-
-      <%# <%= link "Shopping Lists", to: user_shoppinglist_path(@conn, :index) %>  
-
-
       </li>
-      <%= if current_user = @conn.assigns[:current_user] do %>
+
+      <%= if logged_in?(@conn) do %>
         <li>
-          <%= link "My Shopping List", to: user_shoppinglist_path(@conn, :index, current_user.id) %>
+          <%= link "My Shopping List", to: user_shoppinglist_path(@conn, :index, current_user(@conn).id) %>
         </li>
         <li>
-          <%= link "New Shopping List", to: user_shoppinglist_path(@conn, :new, current_user.id) %>
+          <%= link "New Shopping List", to: user_shoppinglist_path(@conn, :new, current_user(@conn).id) %>
         </li>
       <% end %>
     </ul>
   </div>
   <div class="top-bar-right">
     <ul class="menu">
-        <%= if current_user = @conn.assigns[:current_user] do %>
+      <%= if logged_in?(@conn) do %>
           <li>
-            <%= link current_user.username, to: user_path(@conn, :edit, current_user.id) %>
+            <%= link current_user(@conn).username, to: user_path(@conn, :edit, current_user(@conn).id) %>
           </li>
           <li>
-            <%= link "Logout", to: session_path(@conn, :delete, current_user.id), method: :delete, class: "button alert" %>
+            <%= link "Logout", to: session_path(@conn, :delete, current_user(@conn).id), method: :delete, class: "button alert" %>
           </li>
         <% else %>
           <li>
@@ -40,4 +37,8 @@
       </li>
     </ul>
   </div>
+
+
+
+
 </div>

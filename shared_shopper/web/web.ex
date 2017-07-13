@@ -52,7 +52,8 @@ defmodule SharedShopper.Web do
       import SharedShopper.Router.Helpers
       import SharedShopper.ErrorHelpers
       import SharedShopper.Gettext
-      import SharedShopper.InputHelpers 
+      import SharedShopper.InputHelpers
+
     end
   end
 
