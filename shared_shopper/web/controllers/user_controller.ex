@@ -71,28 +71,23 @@ defmodule SharedShopper.UserController do
         |> put_flash(:info, "No access")
         |> redirect(to: page_path(conn, :index))
     end
-
-
-
-
-
-
-
-
-
-
   end
 
   def delete(conn, %{"id" => id}) do
     user = Repo.get!(User, id)
-
-    # Here we use delete! (with a bang) because we expect
-    # it to always work (and if it does not, it will raise).
-    Repo.delete!(user)
-
-    conn
-    |> put_flash(:info, "User deleted successfully.")
-    |> redirect(to: user_path(conn, :index))
+    cond do
+      user == Guardian.Plug.current_resource(conn) ->
+        case Repo.delete(user) do
+          {:ok, user} ->
+            conn
+            |> Guardian.Plug.sign_out
+            |> put_flash(:info, "Account deleted successfully.")
+            |> redirect(to: page_path(conn, :index))
+          {:error, _} ->
+            conn
+            |> render("show.html", user: user)
+      end
+    end
   end
 
 

@@ -1,7 +1,7 @@
 defmodule SharedShopper.ShoppinglistController do
   use SharedShopper.Web, :controller
   plug :assign_user
-  plug :authorize_user when action in [:new, :create, :update, :edit, :delete]
+  #plug :authorize_user when action in [:new, :create, :update, :edit, :delete]
   plug :set_authorization_flag
 
   alias SharedShopper.Shoppinglist
