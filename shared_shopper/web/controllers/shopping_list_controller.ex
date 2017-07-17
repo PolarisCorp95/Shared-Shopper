@@ -5,6 +5,7 @@ defmodule SharedShopper.ShoppinglistController do
   plug :set_authorization_flag
 
   alias SharedShopper.Shoppinglist
+  alias SharedShopper.User
 
   def index(conn, _params) do
     shoppinglist = Repo.all(assoc(conn.assigns[:user], :shoppinglist))
@@ -20,10 +21,21 @@ defmodule SharedShopper.ShoppinglistController do
   end
 
   def create(conn, %{"shoppinglist" => shoppinglist_params}) do
+
+    shoppinglist_params = Map.put shoppinglist_params, "creator", conn.assigns[:user].username
+
+    map = List.delete_at(String.split(shoppinglist_params["people"],","),-1)
+      |> Enum.map(&String.split(&1, ";"))
+      |> Map.new(fn [k, v] -> {k, v} end)
+
     changeset =
      conn.assigns[:user]
      |> build_assoc(:shoppinglist)
      |> Shoppinglist.changeset(shoppinglist_params)
+
+   for {key, val} <- map do
+     Repo.get_by(User, username: key)
+   end
 
    case Repo.insert(changeset) do
      {:ok, _shoppinglist} ->

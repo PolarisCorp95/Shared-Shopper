@@ -12,6 +12,8 @@
   </thead>
   <tbody>
 <%= for shoppinglist <- @shoppinglist do %>
+  <%= if shoppinglist.creator == @user.username do %>
+
     <tr>
       <td><%= shoppinglist.title %></td>
       <td><%= shoppinglist.description %></td>
@@ -23,6 +25,7 @@
         <%= link "Delete", to: user_shoppinglist_path(@conn, :delete, @user, shoppinglist), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
       </td>
     </tr>
+    <% end %>
 <% end %>
   </tbody>
 </table>

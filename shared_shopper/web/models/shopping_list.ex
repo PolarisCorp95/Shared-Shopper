@@ -6,6 +6,7 @@ defmodule SharedShopper.Shoppinglist do
     field :description, :string
     field :completed, :boolean, default: false
     field :people, :map
+    field :creator, :string
     belongs_to :user, SharedShopper.User
     has_many :todos, SharedShopper.Todo
     timestamps()
@@ -16,7 +17,7 @@ defmodule SharedShopper.Shoppinglist do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(filter(params), [:title, :description, :completed, :people])
+    |> cast(filter(params), [:title, :description, :completed, :people, :creator])
     |> validate_required([:title, :description, :completed])
     |> unique_constraint(:people)
   end
